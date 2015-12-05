@@ -6,21 +6,25 @@ from lxml import html
 from pprint import pprint
 import re
 
-
-
-directory = "news/" + str(date.today())
+from topstories import directory
 if not os.path.exists(directory) or not os.path.exists(directory+ "/results.p"):
     sys.stderr.write("NEWS DIRECTORY AND DATA NOT FOUND. RUN topstories.py.\n")
     exit()
 
-
 results = pickle.load(open(directory+"/results.p", "r"))
-
-urls = []
+urls, found = [], True
 for article in results:
     url = article["url"]
     urls.append(url)
 
+    filename = url.split("/")[-1].split(".")[0]
+    if not os.path.exists(directory + "/" + filename + ".txt"):
+        found = False
+if found:
+    sys.stderr.write("ALREADY DOWNLOADED THE NEWS ARTICLES\n")
+    exit()
+
+    
 def scrape(url):
     page = requests.get(url)
     #print page.text.encode('utf-8')

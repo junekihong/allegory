@@ -112,7 +112,8 @@ def simplify_verbs(tokenized):
     return result
     
 
-directory = "news/" + str(date.today())
+from topstories import directory
+#directory = "news/" + str(date.today())
 if not os.path.exists(directory) or not os.path.exists(directory+"/results.p"):
     sys.stderr.write("NEWS DIRECTORY AND DATA NOT FOUND. RUN topstories.py.\n")
     exit()

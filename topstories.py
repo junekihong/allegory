@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import requests
 from datetime import date
 from pprint import pprint
@@ -6,6 +7,11 @@ import os,pickle
 # SPECIFY YOUR API KEY AS api_key:
 # api_key = "yourkeyhere"
 from secret import topstories as api_key
+
+"""
+Get the urls for the top stories of the day from NYT. Needs an API key from NYT
+"""
+
 
 API_ROOT = "http://api.nytimes.com/svc/topstories/v1/"
 #sections = ["home","world","national","politics","nyregion","business","opinion","technology","science","health","sports","arts","fashion","dining","travel","magazine","realestate"]
