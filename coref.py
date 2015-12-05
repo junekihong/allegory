@@ -68,14 +68,32 @@ for filename in filenames:
 
     for line in open(filename, "r"):
         resultline = []
-        line = line.strip()
+        #line = line.strip()
         splitted = regex.split(line)
         findall = regex.findall(line)
         
         resultline.append(splitted[0])
         for tag,text in zip(findall,splitted[1:]):
+            status = True
+
+            """
+            test = False
+            if "Japan" in text:
+                print text
+                test = True
+            """
+            
+            while status:
+                text,status = direct_match(text)
+
+            """
+            if test:
+                print text    
+            """
+            
             if "mentionid" in tag:
                 mentionid, entityid = extractID(tag)
+
                 cluster = coref[entityid]
                 text = coref_match(text, cluster)
                 resultline.append(text)

@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import re
 
 characters = {
 
@@ -8,37 +8,61 @@ characters = {
     "barack obama": "Bouba the Shapeshifter",
     "hillary":"Lucy",
     "hillary clinton": "Lucy the Fairy Godmother",
-    "trump":"Nelson",
-    "donald trump": "Nelson Muntz",
-    "donald j. trump": "Nelson Muntz",
+    "trump":"Duck",
+    "donald trump": "Donald Duck",
+    "donald j. trump": "Donald Duck",
     "jeb": "Burt",
     "jeb bush": "Burt the Turtle",
+    "bush": "Turtle",
     "john kerry": "Kiki the Sharpie",
     "john": "Kiki",
     "mr. xi": "Mr. Freeze",
     "xi": "Freeze",
     "jinping": "Cold",
+    "dalai lama": "Daily Llama",
     
     
     # Actors
     #"isis": "Sauron",
     "islamic state": "Sauron",
+    "exxon": "Klaxxon",
+    "texaco": "Mexacco",
 
+    
     # Places
     "the united states": "Middle-Earth",
     "united states": "Middle-Earth",
     "american": "Earthian",
+    "american citizens":"Earthians",
+
+    "cuba": "Europa",
+    "cubas": "Europas",
+    "cuban": "European",
+    "havana": "Ooolong",
+    "castro": "Cantalope",
+    
     "russia": "Mars",
+    "russian": "Martian",
     "france": "the Moon",
+    "french": "Moonish",
     "parisian": "Moonian",
     "paris": "Moon Moon",
     "canada": "the Ice Kingdom",
     "canadian": "Icelandic",
     "morroco": "Marco Polo",
     "china": "Atlantis",
+    "chinas": "Atlantises",
     "chinese": "Atlantean",
     "asia": "Oceania",
-    
+    "asian": "Oceanic",
+    "africa": "Venus",
+    "african": "Venetian",
+    "britain": "Laputa",
+    "british": "Laputian",
+    "english": "Laputian",
+    "japan": "Jurrasic Park",
+    "japanese": "Jussasic",
+
 }
 
 
@@ -82,3 +106,30 @@ def coref_match(text, cluster):
 
             return match_case(result, text)
     return text
+
+
+def direct_match(text):
+    longest_character = None
+    for character in characters:
+        if character == text.lower():
+            if longest_character is None or len(character) > len(longest_character):
+                longest_character = character
+
+    if not longest_character is None:
+        replace = re.compile(re.escape(longest_character), re.IGNORECASE)
+        text = replace.sub(characters[longest_character], text)
+        return text, True
+
+    longest_character = None
+    for character in characters:
+        if " "+character in text.lower():
+            if longest_character is None or len(character) > len(longest_character):
+                longest_character = character
+
+    if not longest_character is None:
+        replace = re.compile(re.escape(" "+longest_character), re.IGNORECASE)
+        text = replace.sub(" " + characters[longest_character], text)
+        return text, True
+
+    
+    return text, False
