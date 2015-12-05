@@ -5,5 +5,8 @@
 f = open("1000.commonwords")
 words = [x.strip() for x in f.readlines()]
 words = [x for x in words] + [x.title() for x in words]
-commonwords = sorted(words)
+#commonwords = sorted(words)
 
+commonwords = {}
+for word in words:
+    commonwords[word] = True
