@@ -1,15 +1,17 @@
 #!/usr/bin/python
 
 from datetime import date
-import os,pickle,requests
+import os,pickle,requests,sys
 from lxml import html
 from pprint import pprint
 import re
 
 
-directory = str(date.today())
+
+directory = "news/" + str(date.today())
 if not os.path.exists(directory) or not os.path.exists(directory+ "/results.p"):
-    from topstories import *
+    sys.stderr.write("NEWS DIRECTORY AND DATA NOT FOUND. RUN topstories.py.\n")
+    exit()
 
 
 results = pickle.load(open(directory+"/results.p", "r"))
@@ -34,7 +36,7 @@ def scrape(url):
         text += "\n"
         text = text.encode('ascii', 'ignore')
 
-        if PROCESSED_TEXT and PROCESSED_TEXT[-1].strip()[-1] != ".":
+        if PROCESSED_TEXT and PROCESSED_TEXT[-1].strip() and PROCESSED_TEXT[-1].strip()[-1] != ".":
             PROCESSED_TEXT[-1] = PROCESSED_TEXT[-1].strip() + " " + text
             PROCESSED_TEXT[-1].replace("  ", " ")
         else:

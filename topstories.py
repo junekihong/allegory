@@ -21,7 +21,10 @@ results = results["results"]
 
 # ------------------------------------------------------------------------------
 
-directory = str(date.today())
+base_directory = "news/"
+if not os.path.exists(base_directory):
+    os.mkdir(base_directory)
+directory = base_directory + str(date.today())
 if not os.path.exists(directory):
     os.mkdir(directory)
 
