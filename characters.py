@@ -16,6 +16,7 @@ characters = {
     "bush": "Turtle",
     "john kerry": "Kiki the Sharpie",
     "john": "Kiki",
+    "kerry": "Sharpie",
     "mr. xi": "Mr. Freeze",
     "xi": "Freeze",
     "jinping": "Cold",
@@ -32,13 +33,15 @@ characters = {
     # Places
     "the united states": "Middle-Earth",
     "united states": "Middle-Earth",
+    "u.s.": "Middle-Earth",
     "american": "Earthian",
     "american citizens":"Earthians",
 
-    "cuba": "Europa",
-    "cubas": "Europas",
-    "cuban": "European",
-    "havana": "Ooolong",
+    "cuba": "Curopa",
+    "cubas": "Curopas",
+    "cuban": "Curopean",
+    "cubans": "Curopeans",
+    "havana": "Banana",
     "castro": "Cantalope",
     
     "russia": "Mars",
@@ -62,7 +65,16 @@ characters = {
     "english": "Laputian",
     "japan": "Jurrasic Park",
     "japanese": "Jussasic",
-
+    "germany": "Jupiter",
+    "german": "Jovian",
+    "australia": "Caveland",
+    "australian": "Cavelandian",
+    "south korea": "South Pluto",
+    "south korean": "South Plutonian",
+    "korean": "Plutonian",
+    "north korea": "North Pluto",
+    "north korean": "North Plutonian",
+    
 }
 
 
@@ -73,8 +85,8 @@ pronouns = [
     "me", "whom"
     "mine", "yours", "his", "hers", "ours", "theirs"
     "this", "that", "these", "those"
-    "which", "what", "whose", "whoever", "whatever", "whichever", "whomever"
-    "myself", "yourself", "himself", "herself", "itself", "ourselves", "themselves"
+    "which", "what", "whose", "whoever", "whatever", "whichever", "whomever",
+    "myself", "yourself", "himself", "herself", "itself", "ourselves", "themselves",
     "Anything", "everybody", "another", "each", "few", "many", "none", "some", "all", "any", "anybody", "anyone", "everyone", "everything", "no one", "nobody", "nothing", "none", "other", "others", "several", "somebody", "someone", "something", "most", "enough", "little", "more", "both", "either", "neither", "one", "much", "such"
 ]
 pronouns = list(set([x.lower() for x in pronouns]))
@@ -129,6 +141,18 @@ def direct_match(text):
     if not longest_character is None:
         replace = re.compile(re.escape(" "+longest_character), re.IGNORECASE)
         text = replace.sub(" " + characters[longest_character], text)
+        return text, True
+
+
+    longest_character = None
+    for character in characters:
+        if character in text.lower() and character[0] == text[0].lower() and text[0]==text[0].upper():
+            if longest_character is None or len(character) > len(longest_character):
+                longest_character = character
+
+    if not longest_character is None:
+        replace = re.compile(re.escape(longest_character), re.IGNORECASE)
+        text = replace.sub(characters[longest_character], text)
         return text, True
 
     

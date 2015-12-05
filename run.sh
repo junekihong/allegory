@@ -16,5 +16,5 @@ fi
 
 
 if [ $? -eq 0 ]; then
-    echo
+    python coref.py && python synonyms.py
 fi

@@ -78,7 +78,7 @@ for filename in filenames:
 
             """
             test = False
-            if "Japan" in text:
+            if "Cuba" in text:
                 print text
                 test = True
             """

@@ -79,9 +79,8 @@ def simplify_words(tokenized):
             result.append(w)
             continue
 
-        lemma = run_stemmers(w,lemma)
-        lemma = match_case(w, lemma)
-
+        #lemma = run_stemmers(w,syn)
+        lemma = match_case(w, syn)
         #lemma = lemma+"("+w+")"
         result.append(lemma)
     return result
@@ -121,21 +120,42 @@ if not os.path.exists(directory) or not os.path.exists(directory+"/results.p"):
 articles = pickle.load(open(directory+"/results.p", "r"))
 url = articles[0]["url"]
 filename = url.split("/")[-1].split(".")[0]
-if not os.path.exists(directory + "/" + filename + ".txt"):
+"""
+if not os.path.exists(directory + "/" + filename + ".coreplaced"):
     #if os.path.exists(directory+"/results.p"):
     #    os.remove(directory+"/results.p")
-    sys.stderr.write("NEWS ARTICLES NOT FOUND. RUN parsehtml.py.\n")
+    sys.stderr.write("NEWS ARTICLES NOT FOUND. RUN coref.py.\n")
     exit()
+"""
 
 articles = pickle.load(open(directory+"/results.p", "r"))
-for article in articles:
-    url = article["url"]
-    filename = url.split("/")[-1].split(".")[0]
-    path = directory + "/" + filename + ".txt"
 
-    for line in open(path, "r"):
+
+
+filenames = []
+for subdir, dirs, files in os.walk(directory):
+    for file in files:
+        filepath = subdir + os.sep + file
+        if filepath.endswith("coreplaced"):
+            filenames.append(filepath)
+
+#for article in articles:
+for filename in filenames:
+    #url = article["url"]
+    #filename = url.split("/")[-1].split(".")[0]
+    #path = directory + "/" + filename + ".coreplaced"
+
+
+    newfilename = ".".join(filename.split(".")[:-1]) + ".simplified"
+    f = open(newfilename,"w")
+    
+    for line in open(filename, "r"):
         tokenized = word_tokenize(line)
-        line = simplify_verbs(tokenized)
-        #line = simplify_words(tokenized)
-        print " ".join(line)
-    break
+        #line = simplify_verbs(tokenized)
+        line = simplify_words(tokenized)
+        #print " ".join(line)
+        f.write(" ".join(line) + "\n")
+    f.close()
+
+        
+    #break
