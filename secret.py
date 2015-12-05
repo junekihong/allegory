@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# GET YOUR API KEY FROM THE NYT AT:
+# http://developer.nytimes.com/
+
 #article search api
 #search = "YOUR KEY HERE"
 
