@@ -6,12 +6,16 @@ from nltk.wsd import lesk
 from nltk import pos_tag, word_tokenize
 from nltk.stem import LancasterStemmer, RegexpStemmer
 from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+
 from commonwords import commonwords
 import enchant
 
 st = LancasterStemmer()
 st2 = RegexpStemmer("ing$|s$|e$|able$",min=4)
 st3 = PorterStemmer()
+
+
 d = enchant.Dict("en_US")
 
 copula = ["be","am","is","are","being","was","were","been"]
@@ -79,9 +83,9 @@ def simplify_words(tokenized):
             result.append(w)
             continue
 
-        #lemma = run_stemmers(w,syn)
+        lemma = run_stemmers(w,syn)
         lemma = match_case(w, syn)
-        #lemma = lemma+"("+w+")"
+        lemma = lemma+"("+w+")"
         result.append(lemma)
     return result
 
